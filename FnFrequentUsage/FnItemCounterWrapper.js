@@ -2,13 +2,13 @@
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
 import {connect} from 'react-redux';
-import {H_W} from './CsResponsive';
+import {H_W} from './FnResponsive';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {
-  CsaddCartAction,
-  CsremoveCartAction,
-} from '../CsStateManagement/CsActions';
+  FnaddCartAction,
+  FnremoveCartAction,
+} from '../FnStateManagement/FnActions';
 
 const ItemCounterWrapper = ({style, position, Counterlength, ...props}) => {
   return (
@@ -23,8 +23,8 @@ const ItemCounterWrapper = ({style, position, Counterlength, ...props}) => {
         <DefaultCounter
           position={position}
           item={props.item}
-          CsaddCart={(i) => props.CsaddCartAction(i)}
-          CsremoveCart={(i) => props.CsremoveCartAction(i)}
+          FnaddCart={(i) => props.FnaddCartAction(i)}
+          FnremoveCart={(i) => props.FnremoveCartAction(i)}
           Counterlength={Counterlength}
           counterColor={props.counterColor}
           counterContentColor={props.counterContentColor}
@@ -35,8 +35,8 @@ const ItemCounterWrapper = ({style, position, Counterlength, ...props}) => {
         <DefaultCounter
           position={position}
           item={props.item}
-          CsaddCart={(i) => props.CsaddCartAction(i)}
-          CsremoveCart={(i) => props.CsremoveCartAction(i)}
+          FnaddCart={(i) => props.FnaddCartAction(i)}
+          FnremoveCart={(i) => props.FnremoveCartAction(i)}
           Counterlength={Counterlength}
           counterColor={props.counterColor}
           counterContentColor={props.counterContentColor}
@@ -48,8 +48,8 @@ const ItemCounterWrapper = ({style, position, Counterlength, ...props}) => {
 
 const DefaultCounter = ({
   item,
-  CsremoveCart,
-  CsaddCart,
+  FnremoveCart,
+  FnaddCart,
   position,
   Counterlength,
   counterColor,
@@ -74,7 +74,7 @@ const DefaultCounter = ({
           flexDirection:
             position === 'top' || position === 'bottom' ? 'row' : 'column',
         }}>
-        <TouchableOpacity onPress={() => CsremoveCart(item)}>
+        <TouchableOpacity onPress={() => FnremoveCart(item)}>
           <FontAwesome
             name="minus"
             size={H_W.width * 0.05}
@@ -88,7 +88,7 @@ const DefaultCounter = ({
           }}>
           {item.added}
         </Text>
-        <TouchableOpacity onPress={() => CsaddCart(item)}>
+        <TouchableOpacity onPress={() => FnaddCart(item)}>
           <FontAwesome
             name="plus"
             size={H_W.width * 0.05}
@@ -119,6 +119,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, {CsaddCartAction, CsremoveCartAction})(
+export default connect(null, {FnaddCartAction, FnremoveCartAction})(
   ItemCounterWrapper,
 );

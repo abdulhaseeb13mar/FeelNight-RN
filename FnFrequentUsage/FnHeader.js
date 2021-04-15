@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {colors} from './CsColor';
-import {H_W} from './CsResponsive';
+import {colors} from './FnColor';
+import {H_W} from './FnResponsive';
 import {Badge} from 'react-native-elements';
 import {connect} from 'react-redux';
 
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  totalItems: state.CsCartReducer.totalItems,
+  totalItems: state.FnCartReducer.totalItems,
 });
 
 export default connect(mapStateToProps, {})(MyHeader);

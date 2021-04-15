@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, TextInput} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {H_W} from '../CsFrequentUsage/CsResponsive';
-import {colors} from '../CsFrequentUsage/CsColor';
+import {H_W} from '../FnFrequentUsage/FnResponsive';
+import {colors} from '../FnFrequentUsage/FnColor';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export default function SearchBar({editable, changeSearchText}) {

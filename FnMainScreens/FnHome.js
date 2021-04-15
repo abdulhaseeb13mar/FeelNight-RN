@@ -1,49 +1,49 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
 import {Text, View, TouchableOpacity, ScrollView} from 'react-native';
-import WrapperScreen from '../CsFrequentUsage/CsWrapperScreen';
-import {colors, textFont} from '../CsFrequentUsage/CsColor';
-import {H_W} from '../CsFrequentUsage/CsResponsive';
-import Data from '../CsData';
-import Loop from '../CsFrequentUsage/CsFlatList';
-import RefNavigation from '../CsFrequentUsage/CsRefNavigation';
+import WrapperScreen from '../FnFrequentUsage/FnWrapperScreen';
+import {colors, textFont} from '../FnFrequentUsage/FnColor';
+import {H_W} from '../FnFrequentUsage/FnResponsive';
+import Data from '../FnData';
+import Loop from '../FnFrequentUsage/FnFlatList';
+import RefNavigation from '../FnFrequentUsage/FnRefNavigation';
 import {connect} from 'react-redux';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {
-  CssetCurrentProductAction,
-  CsremoveFavAction,
-  CssetFavAction,
-} from '../CsStateManagement/CsActions';
+  FnsetCurrentProductAction,
+  FnremoveFavAction,
+  FnsetFavAction,
+} from '../FnStateManagement/FnActions';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FastImage from 'react-native-fast-image';
 import Feather from 'react-native-vector-icons/Feather';
 import {Badge} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 
-function CsHome(props) {
+function FnHome(props) {
   useEffect(() => {
-    CschangeTab(Data.Category[0]);
+    FnchangeTab(Data.Category[0]);
   }, []);
   const insets = useSafeAreaInsets();
   const HEIGHT = H_W.height - (insets.bottom + insets.top);
-  const [Cscategories, setCscategories] = useState(Data.Category);
-  const [CscurrentCat, setCsCurrentCat] = useState(Data.Category[0]);
-  const [CstabProducts, setCsTabProducts] = useState([]);
+  const [Fncategories, setFncategories] = useState(Data.Category);
+  const [FncurrentCat, setFnCurrentCat] = useState(Data.Category[0]);
+  const [FntabProducts, setFnTabProducts] = useState([]);
 
-  const CschangeTab = (tab) => {
-    setCsCurrentCat(tab);
+  const FnchangeTab = (tab) => {
+    setFnCurrentCat(tab);
     const filteredProducts = Data.Product.filter(
       (item) => item.categoryid === tab.id,
     );
-    setCsTabProducts(filteredProducts);
+    setFnTabProducts(filteredProducts);
   };
 
-  const CsGotoCart = () => RefNavigation.Navigate('CsCart');
-  const CsGotoSearch = () => RefNavigation.Navigate('CsSearch');
-  const CsGotoFav = () => RefNavigation.Navigate('CsFav');
-  const CsGoToSingleProduct = (item) => {
-    props.CssetCurrentProductAction(item);
-    RefNavigation.Navigate('CsSP');
+  const FnGotoCart = () => RefNavigation.Navigate('FnCart');
+  const FnGotoSearch = () => RefNavigation.Navigate('FnSearch');
+  const FnGotoFav = () => RefNavigation.Navigate('FnFav');
+  const FnGoToSingleProduct = (item) => {
+    props.FnsetCurrentProductAction(item);
+    RefNavigation.Navigate('FnSP');
   };
 
   return (
@@ -135,7 +135,7 @@ function CsHome(props) {
                 marginTop: HEIGHT * 0.025,
               }}>
               <TouchableOpacity
-                onPress={CsGotoFav}
+                onPress={FnGotoFav}
                 style={{
                   padding: 5,
                   borderRadius: 10,
@@ -151,7 +151,7 @@ function CsHome(props) {
               </TouchableOpacity>
               <View style={{alignItems: 'center', flexDirection: 'row'}}>
                 <TouchableOpacity
-                  onPress={CsGotoCart}
+                  onPress={FnGotoCart}
                   style={{
                     padding: 5,
                     borderRadius: 10,
@@ -168,7 +168,7 @@ function CsHome(props) {
                     color={colors.primary}
                     size={23}
                   />
-                  {props.CstotalItems > 0 && (
+                  {props.FntotalItems > 0 && (
                     <Badge
                       value={''}
                       containerStyle={{
@@ -183,7 +183,7 @@ function CsHome(props) {
                   )}
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={CsGotoSearch}
+                  onPress={FnGotoSearch}
                   style={{
                     padding: 5,
                     borderRadius: 10,
@@ -201,12 +201,12 @@ function CsHome(props) {
             </View>
             <Loop
               style={{marginTop: HEIGHT * 0.03}}
-              data={Cscategories}
+              data={Fncategories}
               renderItem={({item}) => (
                 <TabList
                   item={item}
-                  CscurrentCat={CscurrentCat}
-                  CschangeTab={CschangeTab}
+                  FncurrentCat={FncurrentCat}
+                  FnchangeTab={FnchangeTab}
                 />
               )}
             />
@@ -217,18 +217,18 @@ function CsHome(props) {
                 marginBottom: HEIGHT * 0.03,
                 fontSize: 20,
               }}>
-              {CstabProducts.length} Products
+              {FntabProducts.length} Products
             </Text>
           </ScrollView>
         }
         numColumns={2}
         horizontal={false}
-        data={CstabProducts}
+        data={FntabProducts}
         renderItem={({item}) => (
-          <CsVerticalTile
+          <FnVerticalTile
             item={item}
-            CsGoToSingleProduct={CsGoToSingleProduct}
-            CsCart={props.CsCart}
+            FnGoToSingleProduct={FnGoToSingleProduct}
+            FnCart={props.FnCart}
           />
         )}
       />
@@ -236,7 +236,7 @@ function CsHome(props) {
   );
 }
 
-export const CsVerticalTile = ({item, CsGoToSingleProduct, CsCart}) => {
+export const FnVerticalTile = ({item, FnGoToSingleProduct, FnCart}) => {
   useEffect(() => {
     checkIfInCart();
   }, []);
@@ -248,7 +248,7 @@ export const CsVerticalTile = ({item, CsGoToSingleProduct, CsCart}) => {
 
   return (
     <TouchableOpacity
-      onPress={() => CsGoToSingleProduct(item)}
+      onPress={() => FnGoToSingleProduct(item)}
       style={{
         paddingVertical: HEIGHT * 0.02,
         paddingHorizontal: H_W.width * 0.025,
@@ -304,7 +304,7 @@ export const CsVerticalTile = ({item, CsGoToSingleProduct, CsCart}) => {
         </Text>
         <View>
           <Feather name="shopping-cart" color={colors.lightGrey3} size={19} />
-          {CsCart && CsCart[item.id] !== undefined && (
+          {FnCart && FnCart[item.id] !== undefined && (
             <Badge
               value={''}
               containerStyle={{
@@ -323,7 +323,7 @@ export const CsVerticalTile = ({item, CsGoToSingleProduct, CsCart}) => {
   );
 };
 
-export const TabList = ({item, CschangeTab, CscurrentCat}) => {
+export const TabList = ({item, FnchangeTab, FncurrentCat}) => {
   const insets = useSafeAreaInsets();
   const HEIGHT = H_W.height - (insets.bottom + insets.top);
   return (
@@ -334,14 +334,14 @@ export const TabList = ({item, CschangeTab, CscurrentCat}) => {
         justifyContent: 'center',
         margin: H_W.width * 0.03,
       }}
-      onPress={() => CschangeTab(item)}>
+      onPress={() => FnchangeTab(item)}>
       <Text
         style={{
           fontWeight: 'bold',
           color:
-            item.category === CscurrentCat.category ? 'black' : colors.primary,
-          opacity: item.category === CscurrentCat.category ? 1 : 0.8,
-          fontSize: item.category === CscurrentCat.category ? 35 : 25,
+            item.category === FncurrentCat.category ? 'black' : colors.primary,
+          opacity: item.category === FncurrentCat.category ? 1 : 0.8,
+          fontSize: item.category === FncurrentCat.category ? 35 : 25,
           marginTop: HEIGHT * 0.01,
           fontFamily: 'Palatino-Roman',
         }}>
@@ -353,14 +353,14 @@ export const TabList = ({item, CschangeTab, CscurrentCat}) => {
 
 const mapStateToProps = (state) => {
   return {
-    CstotalItems: state.CsCartReducer.totalItems,
-    CsCart: state.CsCartReducer.items,
-    CsFavs: state.CsToggleFav,
+    FntotalItems: state.FnCartReducer.totalItems,
+    FnCart: state.FnCartReducer.items,
+    FnFavs: state.FnToggleFav,
   };
 };
 
 export default connect(mapStateToProps, {
-  CssetCurrentProductAction,
-  CsremoveFavAction,
-  CssetFavAction,
-})(CsHome);
+  FnsetCurrentProductAction,
+  FnremoveFavAction,
+  FnsetFavAction,
+})(FnHome);

@@ -1,4 +1,4 @@
-import ActionTypes from './CsActionTypes';
+import ActionTypes from './FnActionTypes';
 import {combineReducers} from 'redux';
 
 const userState = {};
@@ -10,7 +10,7 @@ let cart = {
   totalAmount: 0,
 };
 
-const CsCartReducer = (st = cart, action) => {
+const FnCartReducer = (st = cart, action) => {
   let prev_items = {...st.items};
   switch (action.type) {
     case ActionTypes.ADD_ITEM_CART:
@@ -63,7 +63,7 @@ const CsCartReducer = (st = cart, action) => {
   return st;
 };
 
-const CsUserReducer = (st = userState, action) => {
+const FnUserReducer = (st = userState, action) => {
   switch (action.type) {
     case ActionTypes.USER_INFO:
       st = Object.assign({}, st, {...action.payload});
@@ -75,7 +75,7 @@ const CsUserReducer = (st = userState, action) => {
   return st;
 };
 
-const CsCrntPrdtReducer = (state = crntPrdtState, action) => {
+const FnCrntPrdtReducer = (state = crntPrdtState, action) => {
   switch (action.type) {
     case ActionTypes.SET_CURRENT_PRODUCT:
       state = Object.assign({}, state, {...action.payload});
@@ -87,7 +87,7 @@ const CsCrntPrdtReducer = (state = crntPrdtState, action) => {
   return state;
 };
 
-const CsToggleFav = (state = FavItems, action) => {
+const FnToggleFav = (state = FavItems, action) => {
   switch (action.type) {
     case ActionTypes.SET_FAVOURITE:
       let isUnique = true;
@@ -112,8 +112,8 @@ const CsToggleFav = (state = FavItems, action) => {
 };
 
 export default combineReducers({
-  CsCartReducer,
-  CsToggleFav,
-  CsCrntPrdtReducer,
-  CsUserReducer,
+  FnCartReducer,
+  FnToggleFav,
+  FnCrntPrdtReducer,
+  FnUserReducer,
 });

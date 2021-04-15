@@ -7,34 +7,34 @@ import {
   ImageBackground,
   ScrollView,
 } from 'react-native';
-import {H_W} from '../CsFrequentUsage/CsResponsive';
-import WrapperScreen from '../CsFrequentUsage/CsWrapperScreen';
+import {H_W} from '../FnFrequentUsage/FnResponsive';
+import WrapperScreen from '../FnFrequentUsage/FnWrapperScreen';
 import {connect} from 'react-redux';
-import {colors} from '../CsFrequentUsage/CsColor';
-import NavigationRef from '../CsFrequentUsage/CsRefNavigation';
+import {colors} from '../FnFrequentUsage/FnColor';
+import NavigationRef from '../FnFrequentUsage/FnRefNavigation';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
-  CsremoveFavAction,
-  CssetFavAction,
-  CsaddCartAction,
-  CsremoveCartAction,
-  CssetCurrentProductAction,
-} from '../CsStateManagement/CsActions';
+  FnremoveFavAction,
+  FnsetFavAction,
+  FnaddCartAction,
+  FnremoveCartAction,
+  FnsetCurrentProductAction,
+} from '../FnStateManagement/FnActions';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
-import Loop from '../CsFrequentUsage/CsFlatList';
-import Data from '../CsData';
-import {CsVerticalTile} from './CsHome';
-import CsHeader from '../CsFrequentUsage/CsHeader';
+import Loop from '../FnFrequentUsage/FnFlatList';
+import Data from '../FnData';
+import {FnVerticalTile} from './FnHome';
+import FnHeader from '../FnFrequentUsage/FnHeader';
 
 function SingleProduct(props) {
   useEffect(() => {
     checkIfFav();
     filterRecommendedProducts();
   }, []);
-  const CsProduct = props.CsProduct;
+  const FnProduct = props.FnProduct;
   const [fav, setFav] = useState(false);
   const [recommendedProducts, setRecommendedProducts] = useState([]);
   const insets = useSafeAreaInsets();
@@ -42,14 +42,14 @@ function SingleProduct(props) {
 
   const filterRecommendedProducts = () => {
     const filteredProducts = Data.Product.filter(
-      (item) => item.categoryid === CsProduct.categoryid,
+      (item) => item.categoryid === FnProduct.categoryid,
     );
     setRecommendedProducts(filteredProducts);
   };
 
   const checkIfFav = () => {
-    for (let Cs = 0; Cs < props.CsFavs.length; Cs++) {
-      if (props.CsFavs[Cs].id === CsProduct.id) {
+    for (let Fn = 0; Fn < props.FnFavs.length; Fn++) {
+      if (props.FnFavs[Fn].id === FnProduct.id) {
         setFav(true);
         break;
       }
@@ -58,25 +58,25 @@ function SingleProduct(props) {
 
   const toggleFav = () => {
     fav
-      ? props.CsremoveFavAction(CsProduct.id)
-      : props.CssetFavAction(CsProduct);
+      ? props.FnremoveFavAction(FnProduct.id)
+      : props.FnsetFavAction(FnProduct);
     setFav(!fav);
   };
 
-  const CsAddToCart = () => {
-    props.CsaddCartAction({...CsProduct});
+  const FnAddToCart = () => {
+    props.FnaddCartAction({...FnProduct});
   };
 
-  const CsRemoveFromCart = () => {
-    props.CsCart[CsProduct.id] !== undefined &&
-      props.CsremoveCartAction(CsProduct);
+  const FnRemoveFromCart = () => {
+    props.FnCart[FnProduct.id] !== undefined &&
+      props.FnremoveCartAction(FnProduct);
   };
 
-  const CsGoBack = () => NavigationRef.GoBack();
+  const FnGoBack = () => NavigationRef.GoBack();
 
-  const CsGoToSingleProduct = (item) => {
-    props.CssetCurrentProductAction(item);
-    NavigationRef.Navigate('CsSP');
+  const FnGoToSingleProduct = (item) => {
+    props.FnsetCurrentProductAction(item);
+    NavigationRef.Navigate('FnSP');
   };
 
   return (
@@ -99,12 +99,12 @@ function SingleProduct(props) {
       />
       <ImageBackground
         style={{width: H_W.width, height: HEIGHT}}
-        source={CsProduct.image}
+        source={FnProduct.image}
         resizeMode="cover">
-        <CsHeader
+        <FnHeader
           leftIcon={FontAwesome}
           leftIconName="chevron-left"
-          leftIconAction={CsGoBack}
+          leftIconAction={FnGoBack}
         />
         <Text
           numberOfLines={3}
@@ -117,7 +117,7 @@ function SingleProduct(props) {
             color: 'white',
             backgroundColor: colors.primary,
           }}>
-          {CsProduct.product}
+          {FnProduct.product}
         </Text>
         <View
           style={{
@@ -161,7 +161,7 @@ function SingleProduct(props) {
                     shadowOpacity: 0.85,
                     shadowRadius: 10.27,
                   }}
-                  source={CsProduct.image}
+                  source={FnProduct.image}
                   resizeMode="contain"
                 />
               </View>
@@ -172,7 +172,7 @@ function SingleProduct(props) {
                   textAlign: 'center',
                   fontFamily: 'KohinoorTelugu-Medium',
                 }}>
-                {CsProduct.product}
+                {FnProduct.product}
               </Text>
               <Text
                 style={{
@@ -183,7 +183,7 @@ function SingleProduct(props) {
                   opacity: 0.8,
                   textAlign: 'center',
                 }}>
-                {CsProduct.dis}
+                {FnProduct.dis}
               </Text>
               <View
                 style={{
@@ -200,8 +200,8 @@ function SingleProduct(props) {
                   }}>
                   $234
                 </Text>
-                {props.CsCart[CsProduct.id] !== undefined &&
-                props.CsCart[CsProduct.id].added !== 0 ? (
+                {props.FnCart[FnProduct.id] !== undefined &&
+                props.FnCart[FnProduct.id].added !== 0 ? (
                   <View
                     style={{
                       height: HEIGHT * 0.05,
@@ -220,7 +220,7 @@ function SingleProduct(props) {
                       borderRadius: 10,
                     }}>
                     <TouchableOpacity
-                      onPress={CsRemoveFromCart}
+                      onPress={FnRemoveFromCart}
                       style={{
                         backgroundColor: colors.primary,
                         borderRadius: 5,
@@ -240,10 +240,10 @@ function SingleProduct(props) {
                         fontSize: 20,
                         fontWeight: 'bold',
                       }}>
-                      {props.CsCart[CsProduct.id].added}
+                      {props.FnCart[FnProduct.id].added}
                     </Text>
                     <TouchableOpacity
-                      onPress={CsAddToCart}
+                      onPress={FnAddToCart}
                       style={{
                         backgroundColor: colors.primary,
                         borderRadius: 5,
@@ -260,7 +260,7 @@ function SingleProduct(props) {
                   </View>
                 ) : (
                   <TouchableOpacity
-                    onPress={CsAddToCart}
+                    onPress={FnAddToCart}
                     style={{
                       height: HEIGHT * 0.05,
                       paddingHorizontal: H_W.width * 0.03,
@@ -300,9 +300,9 @@ function SingleProduct(props) {
                 style={{marginTop: HEIGHT * 0.03, marginBottom: HEIGHT * 0.03}}
                 data={recommendedProducts}
                 renderItem={({item}) => (
-                  <CsVerticalTile
+                  <FnVerticalTile
                     item={item}
-                    CsGoToSingleProduct={CsGoToSingleProduct}
+                    FnGoToSingleProduct={FnGoToSingleProduct}
                   />
                 )}
               />
@@ -316,17 +316,17 @@ function SingleProduct(props) {
 
 const mapStateToProps = (state) => {
   return {
-    CsProduct: state.CsCrntPrdtReducer,
-    CsFavs: state.CsToggleFav,
-    totalItems: state.CsCartReducer.totalItems,
-    CsCart: state.CsCartReducer.items,
+    FnProduct: state.FnCrntPrdtReducer,
+    FnFavs: state.FnToggleFav,
+    totalItems: state.FnCartReducer.totalItems,
+    FnCart: state.FnCartReducer.items,
   };
 };
 
 export default connect(mapStateToProps, {
-  CssetFavAction,
-  CsremoveFavAction,
-  CsremoveCartAction,
-  CssetCurrentProductAction,
-  CsaddCartAction,
+  FnsetFavAction,
+  FnremoveFavAction,
+  FnremoveCartAction,
+  FnsetCurrentProductAction,
+  FnaddCartAction,
 })(React.memo(SingleProduct));

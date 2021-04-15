@@ -3,30 +3,30 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Text, View, StyleSheet} from 'react-native';
 import {
-  CsremoveFavAction,
-  CssetFavAction,
-  CssetCurrentProductAction,
-} from '../CsStateManagement/CsActions';
-import {H_W} from '../CsFrequentUsage/CsResponsive';
-import CsHeader from '../CsFrequentUsage/CsHeader';
-import {colors} from '../CsFrequentUsage/CsColor';
-import WrapperScreen from '../CsFrequentUsage/CsWrapperScreen';
-import Loop from '../CsFrequentUsage/CsFlatList';
+  FnremoveFavAction,
+  FnsetFavAction,
+  FnsetCurrentProductAction,
+} from '../FnStateManagement/FnActions';
+import {H_W} from '../FnFrequentUsage/FnResponsive';
+import FnHeader from '../FnFrequentUsage/FnHeader';
+import {colors} from '../FnFrequentUsage/FnColor';
+import WrapperScreen from '../FnFrequentUsage/FnWrapperScreen';
+import Loop from '../FnFrequentUsage/FnFlatList';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import NavigationRef from '../CsFrequentUsage/CsRefNavigation';
+import NavigationRef from '../FnFrequentUsage/FnRefNavigation';
 import LinearGradient from 'react-native-linear-gradient';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {CsVerticalTile} from './CsHome';
+import {FnVerticalTile} from './FnHome';
 
-const CsFavourites = (props) => {
+const FnFavourites = (props) => {
   const insets = useSafeAreaInsets();
   const HEIGHT = H_W.height - (insets.bottom + insets.top);
-  const CsGoToSingleProduct = (item) => {
-    props.CssetCurrentProductAction(item);
-    NavigationRef.Navigate('CsSP');
+  const FnGoToSingleProduct = (item) => {
+    props.FnsetCurrentProductAction(item);
+    NavigationRef.Navigate('FnSP');
   };
 
-  const CsGoBack = () => NavigationRef.Navigate('CsHome');
+  const FnGoBack = () => NavigationRef.Navigate('FnHome');
 
   return (
     <WrapperScreen
@@ -109,7 +109,7 @@ const CsFavourites = (props) => {
         <Loop
           numColumns={2}
           horizontal={false}
-          data={props.CsFavs}
+          data={props.FnFavs}
           renderItem={({item}) => (
             <View
               style={{
@@ -117,21 +117,21 @@ const CsFavourites = (props) => {
                 justifyContent: 'center',
                 paddingVertical: 10,
               }}>
-              <CsVerticalTile
+              <FnVerticalTile
                 item={item}
-                CsGoToSingleProduct={CsGoToSingleProduct}
-                CsCart={props.CsCart}
+                FnGoToSingleProduct={FnGoToSingleProduct}
+                FnCart={props.FnCart}
               />
             </View>
           )}
           ListHeaderComponent={
-            <CsHeader
+            <FnHeader
               leftIcon={FontAwesome}
               leftIconName="chevron-left"
-              leftIconAction={CsGoBack}
+              leftIconAction={FnGoBack}
               Title={
-                <Text style={styles.CsFav2}>
-                  {props.CsFavs.length} Favourites
+                <Text style={styles.FnFav2}>
+                  {props.FnFavs.length} Favourites
                 </Text>
               }
             />
@@ -144,19 +144,19 @@ const CsFavourites = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    CsCart: state.CsCartReducer.items,
-    CsFavs: state.CsToggleFav,
+    FnCart: state.FnCartReducer.items,
+    FnFavs: state.FnToggleFav,
   };
 };
 
 export default connect(mapStateToProps, {
-  CssetFavAction,
-  CssetCurrentProductAction,
-  CsremoveFavAction,
-})(CsFavourites);
+  FnsetFavAction,
+  FnsetCurrentProductAction,
+  FnremoveFavAction,
+})(FnFavourites);
 
 const styles = StyleSheet.create({
-  CsFav2: {
+  FnFav2: {
     color: colors.primary,
     fontSize: 22,
   },

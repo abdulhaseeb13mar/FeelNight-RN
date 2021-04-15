@@ -1,24 +1,24 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import WrapperScreen from '../CsFrequentUsage/CsWrapperScreen';
+import WrapperScreen from '../FnFrequentUsage/FnWrapperScreen';
 import {View, Text} from 'react-native';
-import {H_W} from '../CsFrequentUsage/CsResponsive';
-import {colors} from '../CsFrequentUsage/CsColor';
+import {H_W} from '../FnFrequentUsage/FnResponsive';
+import {colors} from '../FnFrequentUsage/FnColor';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Button} from 'react-native-elements';
-import NavigationRef from '../CsFrequentUsage/CsRefNavigation';
+import NavigationRef from '../FnFrequentUsage/FnRefNavigation';
 import {connect} from 'react-redux';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
-import {CsresetCart} from '../CsStateManagement/CsActions';
+import {FnresetCart} from '../FnStateManagement/FnActions';
 
-function CsConfirmOrder(props) {
+function FnConfirmOrder(props) {
   const insets = useSafeAreaInsets();
   const HEIGHT = H_W.height - (insets.bottom + insets.top);
   const ResetAndGoHome = () => {
-    props.CsresetCart();
-    NavigationRef.NavigateAndReset('CsHome');
+    props.FnresetCart();
+    NavigationRef.NavigateAndReset('FnHome');
   };
   return (
     <WrapperScreen
@@ -144,4 +144,4 @@ function CsConfirmOrder(props) {
   );
 }
 
-export default connect(null, {CsresetCart})(React.memo(CsConfirmOrder));
+export default connect(null, {FnresetCart})(React.memo(FnConfirmOrder));

@@ -3,38 +3,38 @@ import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import {connect} from 'react-redux';
 import {
-  CsremoveCartAction,
-  CsaddCartAction,
-  CssetCurrentProductAction,
-  CssetFavAction,
-  CsremoveFavAction,
-  CsresetCart,
-} from '../CsStateManagement/CsActions';
-import WrapperScreen from '../CsFrequentUsage/CsWrapperScreen';
+  FnremoveCartAction,
+  FnaddCartAction,
+  FnsetCurrentProductAction,
+  FnsetFavAction,
+  FnremoveFavAction,
+  FnresetCart,
+} from '../FnStateManagement/FnActions';
+import WrapperScreen from '../FnFrequentUsage/FnWrapperScreen';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {colors} from '../CsFrequentUsage/CsColor';
-import {H_W} from '../CsFrequentUsage/CsResponsive';
-import RefNavigation from '../CsFrequentUsage/CsRefNavigation';
+import {colors} from '../FnFrequentUsage/FnColor';
+import {H_W} from '../FnFrequentUsage/FnResponsive';
+import RefNavigation from '../FnFrequentUsage/FnRefNavigation';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Button} from 'react-native-elements';
-import Loop from '../CsFrequentUsage/CsFlatList';
+import Loop from '../FnFrequentUsage/FnFlatList';
 import LinearGradient from 'react-native-linear-gradient';
-import CsHeader from '../CsFrequentUsage/CsHeader';
-import {CsVerticalTile} from './CsHome';
-import ItemCounterWrapper from '../CsFrequentUsage/CsItemCounterWrapper';
+import FnHeader from '../FnFrequentUsage/FnHeader';
+import {FnVerticalTile} from './FnHome';
+import ItemCounterWrapper from '../FnFrequentUsage/FnItemCounterWrapper';
 
 export const Cart = (props) => {
   useEffect(() => {
     convertObjectToArray();
-  }, [props.CsCart]);
+  }, [props.FnCart]);
 
   const [HorizontalCartArray, setHorizontalCartArray] = useState([]);
 
   const convertObjectToArray = () => {
-    const CartArray = Object.keys(props.CsCart);
+    const CartArray = Object.keys(props.FnCart);
     let UsArr = [];
     CartArray.forEach((element) => {
-      UsArr.push(props.CsCart[element]);
+      UsArr.push(props.FnCart[element]);
     });
     setHorizontalCartArray(UsArr);
   };
@@ -42,14 +42,14 @@ export const Cart = (props) => {
   const insets = useSafeAreaInsets();
   const HEIGHT = H_W.height - (insets.bottom + insets.top);
 
-  const CsGoBack = () => RefNavigation.GoBack();
+  const FnGoBack = () => RefNavigation.GoBack();
 
-  const CsGoToSingleProduct = (item) => {
-    props.CssetCurrentProductAction(item);
-    RefNavigation.Navigate('CsSP');
+  const FnGoToSingleProduct = (item) => {
+    props.FnsetCurrentProductAction(item);
+    RefNavigation.Navigate('FnSP');
   };
 
-  const CsinfoScreen = () => RefNavigation.Navigate('CsContact');
+  const FninfoScreen = () => RefNavigation.Navigate('FnContact');
 
   return (
     <WrapperScreen
@@ -130,11 +130,11 @@ export const Cart = (props) => {
           </View>
         </LinearGradient>
       </View>
-      <CsHeader
+      <FnHeader
         leftIcon={FontAwesome}
         leftIconName="chevron-left"
         leftIconColor={colors.primary}
-        leftIconAction={CsGoBack}
+        leftIconAction={FnGoBack}
         Title={<Text style={{fontSize: 22}}>Cart</Text>}
       />
       <Loop
@@ -149,10 +149,10 @@ export const Cart = (props) => {
             item={item}
             position="bottom"
             Counterlength={H_W.width * 0.2}>
-            <CsVerticalTile
+            <FnVerticalTile
               item={item}
-              CsGoToSingleProduct={CsGoToSingleProduct}
-              CsCart={props.CsCart}
+              FnGoToSingleProduct={FnGoToSingleProduct}
+              FnCart={props.FnCart}
             />
           </ItemCounterWrapper>
         )}
@@ -191,14 +191,14 @@ export const Cart = (props) => {
               borderRadius: 10,
             }}>
             <Text style={{fontSize: 18, fontWeight: 'bold'}}>
-              ${props.CsTotal}
+              ${props.FnTotal}
             </Text>
           </View>
         </View>
         <View style={{alignItems: 'center'}}>
           <Button
-            onPress={CsinfoScreen}
-            disabled={props.CsTotalItems === 0}
+            onPress={FninfoScreen}
+            disabled={props.FnTotalItems === 0}
             title="Checkout"
             buttonStyle={{
               backgroundColor: colors.primary,
@@ -214,17 +214,17 @@ export const Cart = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  CsCart: state.CsCartReducer.items,
-  CsTotal: state.CsCartReducer.totalAmount,
-  CsFavs: state.CsToggleFav,
-  CsTotalItems: state.CsCartReducer.totalItems,
+  FnCart: state.FnCartReducer.items,
+  FnTotal: state.FnCartReducer.totalAmount,
+  FnFavs: state.FnToggleFav,
+  FnTotalItems: state.FnCartReducer.totalItems,
 });
 
 export default connect(mapStateToProps, {
-  CsremoveCartAction,
-  CsaddCartAction,
-  CssetCurrentProductAction,
-  CssetFavAction,
-  CsremoveFavAction,
-  CsresetCart,
+  FnremoveCartAction,
+  FnaddCartAction,
+  FnsetCurrentProductAction,
+  FnsetFavAction,
+  FnremoveFavAction,
+  FnresetCart,
 })(Cart);

@@ -2,17 +2,17 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, TextInput} from 'react-native';
 import {connect} from 'react-redux';
-import WrapperScreen from '../CsFrequentUsage/CsWrapperScreen';
+import WrapperScreen from '../FnFrequentUsage/FnWrapperScreen';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {H_W} from '../CsFrequentUsage/CsResponsive';
-import {colors} from '../CsFrequentUsage/CsColor';
+import {H_W} from '../FnFrequentUsage/FnResponsive';
+import {colors} from '../FnFrequentUsage/FnColor';
 import {Button, Overlay} from 'react-native-elements';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {isFormValid} from '../CsFrequentUsage/Csvalidation';
-import NavPointer from '../CsFrequentUsage/CsRefNavigation';
-import {CsUserAction, CsresetCart} from '../CsStateManagement/CsActions';
+import {isFormValid} from '../FnFrequentUsage/Fnvalidation';
+import NavPointer from '../FnFrequentUsage/FnRefNavigation';
+import {FnUserAction, FnresetCart} from '../FnStateManagement/FnActions';
 import Toast from 'react-native-root-toast';
-import UseHeader from '../CsFrequentUsage/CsHeader';
+import UseHeader from '../FnFrequentUsage/FnHeader';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
@@ -31,7 +31,7 @@ const ConfirmOrder = (props) => {
   const [addressErrMsg, setAddressErrMsg] = useState('');
   const [phone, setPhone] = useState('');
 
-  const CsConfirm = () => {
+  const FnConfirm = () => {
     const formValidResponse = isFormValid(firstName, email, phone, address);
     if (!formValidResponse.status) {
       errorMsgHandler(formValidResponse.errCategory, formValidResponse.errMsg);
@@ -41,7 +41,7 @@ const ConfirmOrder = (props) => {
         setLoading(false);
         MoveToConfirmOrder();
       }, 2000);
-      props.CsUserAction({
+      props.FnUserAction({
         email: email,
         firstName: firstName,
         phone: phone,
@@ -111,20 +111,20 @@ const ConfirmOrder = (props) => {
   };
 
   const MoveToConfirmOrder = () => {
-    props.CsresetCart();
-    NavPointer.Push('CsConfirmOrder');
+    props.FnresetCart();
+    NavPointer.Push('FnConfirmOrder');
   };
 
   const closeModal = () => {
     setShowModal(false);
-    props.CsresetCart();
-    NavPointer.Push('CsHome');
+    props.FnresetCart();
+    NavPointer.Push('FnHome');
   };
 
   const changePhone = (t) => setPhone(t);
   const changeAddress = (t) => setAddress(t);
   const changeEmail = (t) => setEmail(t);
-  const CsGoBack = () => NavPointer.GoBack();
+  const FnGoBack = () => NavPointer.GoBack();
   const changeFirstName = (t) => setFirstName(t);
 
   return (
@@ -209,8 +209,8 @@ const ConfirmOrder = (props) => {
           leftIcon={FontAwesome}
           leftIconName="chevron-left"
           leftIconColor={colors.primary}
-          leftIconAction={CsGoBack}
-          Title={<Text style={styles.CsContact2}>Checkout</Text>}
+          leftIconAction={FnGoBack}
+          Title={<Text style={styles.FnContact2}>Checkout</Text>}
         />
         <View
           style={{
@@ -245,16 +245,16 @@ const ConfirmOrder = (props) => {
             <Text style={{color: 'white'}}>Cash on Delivery</Text>
           </View>
         </View>
-        <View style={styles.CsPersonalInfoWrapper}>
-          <View style={styles.CsSinglePersonalInfoWrapper}>
+        <View style={styles.FnPersonalInfoWrapper}>
+          <View style={styles.FnSinglePersonalInfoWrapper}>
             <Text
               style={{
-                ...styles.CsPersonalInfoHeadingName,
+                ...styles.FnPersonalInfoHeadingName,
                 color: firstNameErrMsg ? 'red' : 'black',
               }}>
               NAME <Text> {firstNameErrMsg}</Text>
             </Text>
-            <View style={styles.CsPersonalInfoInputWrapper}>
+            <View style={styles.FnPersonalInfoInputWrapper}>
               <TextInput
                 placeholder="Your Name"
                 style={{...styles.Input, height: HEIGHT * 0.065}}
@@ -263,15 +263,15 @@ const ConfirmOrder = (props) => {
               />
             </View>
           </View>
-          <View style={styles.CsSinglePersonalInfoWrapper}>
+          <View style={styles.FnSinglePersonalInfoWrapper}>
             <Text
               style={{
-                ...styles.CsPersonalInfoHeadingName,
+                ...styles.FnPersonalInfoHeadingName,
                 color: emailErrMsg ? 'red' : 'black',
               }}>
               EMAIL<Text> {emailErrMsg}</Text>
             </Text>
-            <View style={styles.CsPersonalInfoInputWrapper}>
+            <View style={styles.FnPersonalInfoInputWrapper}>
               <TextInput
                 placeholder="Email"
                 style={{...styles.Input, height: HEIGHT * 0.065}}
@@ -280,15 +280,15 @@ const ConfirmOrder = (props) => {
               />
             </View>
           </View>
-          <View style={styles.CsSinglePersonalInfoWrapper}>
+          <View style={styles.FnSinglePersonalInfoWrapper}>
             <Text
               style={{
-                ...styles.CsPersonalInfoHeadingName,
+                ...styles.FnPersonalInfoHeadingName,
                 color: phoneErrMsg ? 'red' : 'black',
               }}>
               CONTACT NUMBER<Text> {phoneErrMsg}</Text>
             </Text>
-            <View style={styles.CsPersonalInfoInputWrapper}>
+            <View style={styles.FnPersonalInfoInputWrapper}>
               <TextInput
                 placeholder="Contact Number"
                 keyboardType="number-pad"
@@ -298,15 +298,15 @@ const ConfirmOrder = (props) => {
               />
             </View>
           </View>
-          <View style={styles.CsSinglePersonalInfoWrapper}>
+          <View style={styles.FnSinglePersonalInfoWrapper}>
             <Text
               style={{
-                ...styles.CsPersonalInfoHeadingName,
+                ...styles.FnPersonalInfoHeadingName,
                 color: addressErrMsg ? 'red' : 'black',
               }}>
               DELIVERY ADDRESS<Text> {addressErrMsg}</Text>
             </Text>
-            <View style={styles.CsPersonalInfoInputWrapper}>
+            <View style={styles.FnPersonalInfoInputWrapper}>
               <TextInput
                 placeholder="Address"
                 style={{...styles.Input, height: HEIGHT * 0.13}}
@@ -323,7 +323,7 @@ const ConfirmOrder = (props) => {
           animationType="fade">
           <View
             style={{
-              ...styles.CsModalWrapper,
+              ...styles.FnModalWrapper,
               paddingVertical: HEIGHT * 0.04,
             }}>
             <MaterialCommunityIcons
@@ -331,7 +331,7 @@ const ConfirmOrder = (props) => {
               size={H_W.width * 0.25}
               color="white"
             />
-            <Text style={styles.CsModalHeadText}>
+            <Text style={styles.FnModalHeadText}>
               YOUR ORDER HAS BEEN CONFIRMED!
             </Text>
           </View>
@@ -345,8 +345,8 @@ const ConfirmOrder = (props) => {
           <Button
             raised
             loading={loading}
-            onPress={CsConfirm}
-            disabled={props.CsTotalItems === 0}
+            onPress={FnConfirm}
+            disabled={props.FnTotalItems === 0}
             title="CONFIRM ORDER"
             titleStyle={{fontWeight: 'bold', fontSize: 20}}
             containerStyle={{width: '95%'}}
@@ -370,26 +370,26 @@ const ConfirmOrder = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    total: state.CsCartReducer.totalAmount,
+    total: state.FnCartReducer.totalAmount,
   };
 };
 
-export default connect(mapStateToProps, {CsUserAction, CsresetCart})(
+export default connect(mapStateToProps, {FnUserAction, FnresetCart})(
   React.memo(ConfirmOrder),
 );
 
 const styles = StyleSheet.create({
-  CsContact2: {
+  FnContact2: {
     color: colors.primary,
     fontSize: 22,
   },
-  CsModalHeadText: {
+  FnModalHeadText: {
     fontSize: H_W.width * 0.06,
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'white',
   },
-  CsModalWrapper: {
+  FnModalWrapper: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -402,14 +402,14 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontWeight: 'bold',
   },
-  CsInputIcon: {
+  FnInputIcon: {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     width: H_W.width * 0.09,
     color: colors.secondary,
   },
-  CsPersonalInfoInputWrapper: {
+  FnPersonalInfoInputWrapper: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -419,15 +419,15 @@ const styles = StyleSheet.create({
     borderColor: colors.primary,
     borderWidth: 1,
   },
-  CsPersonalInfoHeadingName: {
+  FnPersonalInfoHeadingName: {
     fontSize: 13,
     fontWeight: 'bold',
     marginVertical: 6,
   },
-  CsSinglePersonalInfoWrapper: {
+  FnSinglePersonalInfoWrapper: {
     marginVertical: 10,
   },
-  CsPersonalInfoWrapper: {
+  FnPersonalInfoWrapper: {
     marginHorizontal: H_W.width * 0.035,
   },
   container: {flex: 1},

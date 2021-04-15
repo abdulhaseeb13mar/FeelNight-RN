@@ -1,24 +1,24 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import WrapperScreen from '../CsFrequentUsage/CsWrapperScreen';
-import {H_W} from '../CsFrequentUsage/CsResponsive';
-import NavigationRef from '../CsFrequentUsage/CsRefNavigation';
-import {colors} from '../CsFrequentUsage/CsColor';
-import Data from '../CsData';
-import Loop from '../CsFrequentUsage/CsFlatList';
+import WrapperScreen from '../FnFrequentUsage/FnWrapperScreen';
+import {H_W} from '../FnFrequentUsage/FnResponsive';
+import NavigationRef from '../FnFrequentUsage/FnRefNavigation';
+import {colors} from '../FnFrequentUsage/FnColor';
+import Data from '../FnData';
+import Loop from '../FnFrequentUsage/FnFlatList';
 import {connect} from 'react-redux';
 import {
-  CssetCurrentProductAction,
-  CssetFavAction,
-  CsremoveFavAction,
-} from '../CsStateManagement/CsActions';
+  FnsetCurrentProductAction,
+  FnsetFavAction,
+  FnremoveFavAction,
+} from '../FnStateManagement/FnActions';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import CsSearchBar from '../CsFrequentUsage/CsSearchBar';
-import CsHeader from '../CsFrequentUsage/CsHeader';
+import FnSearchBar from '../FnFrequentUsage/FnSearchBar';
+import FnHeader from '../FnFrequentUsage/FnHeader';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
-import {CsVerticalTile} from './CsHome';
+import {FnVerticalTile} from './FnHome';
 
 function Search(props) {
   const [searchText, setSearchText] = useState('');
@@ -39,9 +39,9 @@ function Search(props) {
     );
   };
 
-  const CsGoToSingleProduct = (item) => {
-    props.CssetCurrentProductAction(item);
-    NavigationRef.Navigate('CsSP');
+  const FnGoToSingleProduct = (item) => {
+    props.FnsetCurrentProductAction(item);
+    NavigationRef.Navigate('FnSP');
   };
 
   const CardRender = (Arr) => {
@@ -57,19 +57,19 @@ function Search(props) {
               justifyContent: 'center',
               paddingVertical: 10,
             }}>
-            <CsVerticalTile
+            <FnVerticalTile
               item={item}
-              CsGoToSingleProduct={CsGoToSingleProduct}
-              CsCart={props.CsCart}
+              FnGoToSingleProduct={FnGoToSingleProduct}
+              FnCart={props.FnCart}
             />
           </View>
         )}
       />
     );
   };
-  const CsGoBack = () => NavigationRef.GoBack();
+  const FnGoBack = () => NavigationRef.GoBack();
 
-  const CschangeSearchText = (t) => setSearchText(t);
+  const FnchangeSearchText = (t) => setSearchText(t);
   return (
     <WrapperScreen
       statusColor={`rgba(${colors.rgb_Primary},0.2)`}
@@ -149,20 +149,20 @@ function Search(props) {
           </View>
         </LinearGradient>
       </View>
-      <CsHeader
+      <FnHeader
         leftIcon={FontAwesome}
         leftIconName="chevron-left"
         leftIconColor={colors.primary}
-        leftIconAction={CsGoBack}
-        Title={<Text style={styles.CsSearch2}>Search</Text>}
+        leftIconAction={FnGoBack}
+        Title={<Text style={styles.FnSearch2}>Search</Text>}
       />
-      <View style={styles.CsSearch3}>
+      <View style={styles.FnSearch3}>
         <View
           style={{
             marginTop: HEIGHT * 0.01,
-            ...styles.CsSearch4,
+            ...styles.FnSearch4,
           }}>
-          <CsSearchBar changeSearchText={CschangeSearchText} />
+          <FnSearchBar changeSearchText={FnchangeSearchText} />
         </View>
       </View>
       <View style={{marginTop: HEIGHT * 0.01, flex: 1}}>
@@ -173,27 +173,27 @@ function Search(props) {
 }
 
 const mapStateToProps = (state) => ({
-  CsCart: state.CsCartReducer.items,
-  CsFavs: state.CsToggleFav,
+  FnCart: state.FnCartReducer.items,
+  FnFavs: state.FnToggleFav,
 });
 
 export default connect(mapStateToProps, {
-  CssetCurrentProductAction,
-  CssetFavAction,
-  CsremoveFavAction,
+  FnsetCurrentProductAction,
+  FnsetFavAction,
+  FnremoveFavAction,
 })(Search);
 
 const styles = StyleSheet.create({
-  CsSearch2: {
+  FnSearch2: {
     fontWeight: 'bold',
     fontSize: 20,
     color: 'white',
   },
-  CsSearch3: {
+  FnSearch3: {
     alignItems: 'center',
     justifyContent: 'center',
   },
-  CsSearch4: {
+  FnSearch4: {
     width: '85%',
   },
 });
