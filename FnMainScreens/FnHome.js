@@ -16,13 +16,10 @@ import {
 } from '../FnStateManagement/FnActions';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FastImage from 'react-native-fast-image';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Badge} from 'react-native-elements';
 import HomeSvg from '../FnAllAssets/UtilityAssets/HomeSvg';
 import LinearGradient from 'react-native-linear-gradient';
-import dp from '../FnAllAssets/Images/1.png';
 import FnHeader from '../FnFrequentUsage/FnHeader';
 
 function FnHome(props) {
@@ -42,7 +39,7 @@ function FnHome(props) {
     );
     setFnTabProducts(filteredProducts);
   };
-  const FnGotoCart = () => RefNavigation.Navigate('FnCart');
+  const FnGotoCart = () => RefNavigation.Navigate('FnContact');
   const FnGotoSearch = () => RefNavigation.Navigate('FnSearch');
   const FnGotoFav = () => RefNavigation.Navigate('FnFav');
   const FnGoToSingleProduct = (item) => {
@@ -59,8 +56,10 @@ function FnHome(props) {
             <FnHeader
               leftIcon={SimpleLineIcons}
               leftIconName="heart"
+              leftIconAction={FnGotoFav}
               rightIcon={SimpleLineIcons}
               rightIconName="handbag"
+              rightIconAction={FnGotoCart}
             />
             <Text
               style={{
@@ -85,7 +84,8 @@ function FnHome(props) {
                   shadowRadius: 4.65,
                   borderRadius: 7,
                 }}>
-                <View
+                <TouchableOpacity
+                  onPress={FnGotoSearch}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
@@ -98,7 +98,7 @@ function FnHome(props) {
                   <Text style={{marginLeft: H_W.width * 0.02}}>
                     Search Here...
                   </Text>
-                </View>
+                </TouchableOpacity>
               </View>
             </View>
             <View style={{marginTop: HEIGHT * 0.03}}>
@@ -116,7 +116,12 @@ function FnHome(props) {
             <View style={{marginVertical: HEIGHT * 0.03}}>
               <Loop
                 data={FntabProducts}
-                renderItem={({item}) => <FnVerticalTile item={item} />}
+                renderItem={({item}) => (
+                  <FnVerticalTile
+                    item={item}
+                    FnGoToSingleProduct={FnGoToSingleProduct}
+                  />
+                )}
               />
             </View>
             <Text style={{marginLeft: H_W.width * 0.06, fontSize: 25}}>
@@ -126,7 +131,15 @@ function FnHome(props) {
         }
         horizontal={false}
         data={FntabProducts}
-        renderItem={({item}) => <FnHorizontalTile item={item} />}
+        renderItem={({item}) => (
+          <FnHorizontalTile
+            item={item}
+            FnGoToSingleProduct={FnGoToSingleProduct}
+            FnFavs={props.FnFavs}
+            FnsetFav={(Fn) => props.FnsetFavAction(Fn)}
+            FnremoveFav={(Fn) => props.FnremoveFavAction(Fn)}
+          />
+        )}
       />
     </WrapperScreen>
   );
@@ -152,7 +165,8 @@ export const FnVerticalTile = ({item, FnGoToSingleProduct, FnCart}) => {
   const HEIGHT = H_W.height - (insets.bottom + insets.top);
 
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => FnGoToSingleProduct(item)}
       style={{
         width: H_W.width * 0.57,
         marginHorizontal: H_W.width * 0.05,
@@ -209,11 +223,34 @@ export const FnVerticalTile = ({item, FnGoToSingleProduct, FnCart}) => {
         numberOfLines={2}>
         {item.name.toUpperCase()}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-export const FnHorizontalTile = ({item, FnGoToSingleProduct}) => {
+export const FnHorizontalTile = ({
+  item,
+  FnGoToSingleProduct,
+  FnFavs,
+  FnremoveFav,
+  FnsetFav,
+}) => {
+  useEffect(() => {
+    checkIfFav();
+  }, []);
+  const [fav, setFav] = useState(false);
+
+  const checkIfFav = () => {
+    for (let Fn = 0; Fn < FnFavs.length; Fn++) {
+      if (FnFavs[Fn].id === item.id) {
+        setFav(true);
+        break;
+      }
+    }
+  };
+  const toggleFav = () => {
+    fav ? FnremoveFav(item.id) : FnsetFav(item);
+    setFav(!fav);
+  };
   const insets = useSafeAreaInsets();
   const HEIGHT = H_W.height - (insets.bottom + insets.top);
   return (
@@ -275,7 +312,13 @@ export const FnHorizontalTile = ({item, FnGoToSingleProduct}) => {
               <Text style={{fontSize: 18}}>${item.price}</Text>
             </View>
           </View>
-          <Ionicons name="heart-circle" size={37} />
+          <TouchableOpacity onPress={toggleFav}>
+            <Ionicons
+              name="heart-circle"
+              size={37}
+              color={fav ? 'red' : 'black'}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </TouchableOpacity>
@@ -320,10 +363,6 @@ export const TabList = ({item, FnchangeTab, FncurrentCat}) => {
       </Text>
     </TouchableOpacity>
   );
-};
-const border = {
-  borderColor: 'red',
-  borderWidth: 1,
 };
 
 const mapStateToProps = (state) => {

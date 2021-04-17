@@ -1,6 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import WrapperScreen from '../FnFrequentUsage/FnWrapperScreen';
 import {H_W} from '../FnFrequentUsage/FnResponsive';
 import NavigationRef from '../FnFrequentUsage/FnRefNavigation';
@@ -14,11 +20,10 @@ import {
   FnremoveFavAction,
 } from '../FnStateManagement/FnActions';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import FnSearchBar from '../FnFrequentUsage/FnSearchBar';
 import FnHeader from '../FnFrequentUsage/FnHeader';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import LinearGradient from 'react-native-linear-gradient';
-import {FnVerticalTile} from './FnHome';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import {FnHorizontalTile} from './FnHome';
 
 function Search(props) {
   const [searchText, setSearchText] = useState('');
@@ -28,7 +33,7 @@ function Search(props) {
 
   const RenderSearchedResult = () => {
     var SearchedItems = Data.Product.filter((item) =>
-      item.product.toLowerCase().includes(searchText.toLowerCase()),
+      item.name.toLowerCase().includes(searchText.toLowerCase()),
     );
     return SearchedItems.length === 0 ? (
       <Text style={{fontWeight: 'bold', textAlign: 'center'}}>
@@ -47,22 +52,16 @@ function Search(props) {
   const CardRender = (Arr) => {
     return (
       <Loop
-        numColumns={2}
         horizontal={false}
         data={Arr}
         renderItem={({item}) => (
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingVertical: 10,
-            }}>
-            <FnVerticalTile
-              item={item}
-              FnGoToSingleProduct={FnGoToSingleProduct}
-              FnCart={props.FnCart}
-            />
-          </View>
+          <FnHorizontalTile
+            item={item}
+            FnGoToSingleProduct={FnGoToSingleProduct}
+            FnFavs={props.FnFavs}
+            FnsetFav={(Fn) => props.FnsetFavAction(Fn)}
+            FnremoveFav={(Fn) => props.FnremoveFavAction(Fn)}
+          />
         )}
       />
     );
@@ -71,98 +70,50 @@ function Search(props) {
 
   const FnchangeSearchText = (t) => setSearchText(t);
   return (
-    <WrapperScreen
-      statusColor={`rgba(${colors.rgb_Primary},0.2)`}
-      style={{
-        backgroundColor: `rgba(${colors.rgb_Primary},0.2)`,
-      }}>
-      <View
-        style={{
-          shadowColor: '#000',
-          shadowOffset: {
-            width: -H_W.width * 0.06,
-            height: HEIGHT * 0.02,
-          },
-          shadowOpacity: 1,
-          shadowRadius: 14.78,
-          position: 'absolute',
-          top: -HEIGHT * 0.2,
-          right: -H_W.width * 0.4,
-          zIndex: -1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <LinearGradient
-          style={{
-            width: H_W.width * 1.2,
-            height: H_W.width * 1.2,
-            borderRadius: H_W.width * 0.6,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          colors={[
-            `rgba(${colors.rgb_Primary},0.0)`,
-            `rgba(${colors.rgb_Primary},0.1)`,
-          ]}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 1}}>
-          <View
-            style={{
-              shadowColor: '#000',
-              shadowOffset: {
-                width: -H_W.width * 0.06,
-                height: HEIGHT * 0.02,
-              },
-              shadowOpacity: 0.1,
-              shadowRadius: 14.78,
-            }}>
-            <LinearGradient
-              style={{
-                zIndex: -1,
-                width: H_W.width * 1.05,
-                height: H_W.width * 1.05,
-                borderRadius: H_W.width * 0.6,
-                marginBottom: H_W.width * 0.15,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              colors={[
-                `rgba(${colors.rgb_Primary},0.0)`,
-                `rgba(${colors.rgb_Primary},0.5)`,
-              ]}>
-              <LinearGradient
-                style={{
-                  zIndex: -1,
-                  width: H_W.width * 0.9,
-                  height: H_W.width * 0.9,
-                  borderRadius: H_W.width * 0.6,
-                  marginBottom: H_W.width * 0.15,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                colors={[
-                  `rgba(${colors.rgb_Primary},0.0)`,
-                  `rgba(${colors.rgb_Primary},0.5)`,
-                ]}
-              />
-            </LinearGradient>
-          </View>
-        </LinearGradient>
-      </View>
+    <WrapperScreen style={{backgroundColor: 'white'}}>
       <FnHeader
-        leftIcon={FontAwesome}
-        leftIconName="chevron-left"
+        leftIcon={SimpleLineIcons}
+        leftIconName="arrow-left"
         leftIconColor={colors.primary}
         leftIconAction={FnGoBack}
         Title={<Text style={styles.FnSearch2}>Search</Text>}
       />
-      <View style={styles.FnSearch3}>
+      <View style={{paddingHorizontal: H_W.width * 0.06}}>
         <View
           style={{
-            marginTop: HEIGHT * 0.01,
-            ...styles.FnSearch4,
+            backgroundColor: 'white',
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowOpacity: 0.29,
+            shadowRadius: 4.65,
+            borderRadius: 7,
           }}>
-          <FnSearchBar changeSearchText={FnchangeSearchText} />
+          <TouchableOpacity
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              height: HEIGHT * 0.05,
+              paddingLeft: H_W.width * 0.03,
+              backgroundColor: `rgba(${colors.rgb_Primary},0.25)`,
+              borderRadius: 7,
+            }}>
+            <Fontisto name="search" size={18} color={colors.primary} />
+            <TextInput
+              style={{
+                width: '80%',
+                fontWeight: 'bold',
+                fontSize: 15,
+                color: 'black',
+                marginLeft: H_W.width * 0.02,
+              }}
+              placeholderTextColor={colors.darkGray}
+              placeholder="Search Here..."
+              onChangeText={FnchangeSearchText}
+            />
+          </TouchableOpacity>
         </View>
       </View>
       <View style={{marginTop: HEIGHT * 0.01, flex: 1}}>
@@ -187,7 +138,7 @@ const styles = StyleSheet.create({
   FnSearch2: {
     fontWeight: 'bold',
     fontSize: 20,
-    color: 'white',
+    color: 'black',
   },
   FnSearch3: {
     alignItems: 'center',

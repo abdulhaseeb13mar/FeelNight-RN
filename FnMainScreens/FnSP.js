@@ -1,12 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ImageBackground,
-  ScrollView,
-} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {H_W} from '../FnFrequentUsage/FnResponsive';
 import WrapperScreen from '../FnFrequentUsage/FnWrapperScreen';
 import {connect} from 'react-redux';
@@ -21,30 +15,29 @@ import {
   FnremoveCartAction,
   FnsetCurrentProductAction,
 } from '../FnStateManagement/FnActions';
-import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import LinearGradient from 'react-native-linear-gradient';
-import Loop from '../FnFrequentUsage/FnFlatList';
 import Data from '../FnData';
-import {FnVerticalTile} from './FnHome';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import FastImage from 'react-native-fast-image';
 import FnHeader from '../FnFrequentUsage/FnHeader';
 
 function SingleProduct(props) {
   useEffect(() => {
+    getTheCategory();
     checkIfFav();
-    filterRecommendedProducts();
   }, []);
   const FnProduct = props.FnProduct;
   const [fav, setFav] = useState(false);
-  const [recommendedProducts, setRecommendedProducts] = useState([]);
+  const [productCategory, setProductCategory] = useState('');
   const insets = useSafeAreaInsets();
   const HEIGHT = H_W.height - (insets.bottom + insets.top);
 
-  const filterRecommendedProducts = () => {
-    const filteredProducts = Data.Product.filter(
-      (item) => item.categoryid === FnProduct.categoryid,
-    );
-    setRecommendedProducts(filteredProducts);
+  const getTheCategory = () => {
+    for (let Fn = 0; Fn < Data.Category.length; Fn++) {
+      if (Data.Category[Fn].id === FnProduct.categoryid) {
+        setProductCategory(Data.Category[Fn].category);
+        break;
+      }
+    }
   };
 
   const checkIfFav = () => {
@@ -72,244 +65,209 @@ function SingleProduct(props) {
       props.FnremoveCartAction(FnProduct);
   };
 
+  const FnGotoCart = () => NavigationRef.Navigate('FnContact');
   const FnGoBack = () => NavigationRef.GoBack();
-
-  const FnGoToSingleProduct = (item) => {
-    props.FnsetCurrentProductAction(item);
-    NavigationRef.Navigate('FnSP');
-  };
 
   return (
     <WrapperScreen
-      statusColor={`rgba(${colors.rgb_Primary},0.3)`}
-      style={{backgroundColor: 'white'}}>
-      <LinearGradient
-        style={{
-          zIndex: -1,
-          width: H_W.width,
-          height: H_W.height,
-          position: 'absolute',
-        }}
-        colors={[
-          `rgba(${colors.rgb_Primary},0.3)`,
-          `rgba(${colors.rgb_Primary},0.9)`,
-        ]}
-        end={{x: 0, y: 1}}
-        start={{x: 0, y: 0}}
+      style={{backgroundColor: `rgba(${colors.rgb_Primary},0.45)`}}
+      statusColor={`rgba(${colors.rgb_Primary},0.45)`}>
+      <FnHeader
+        leftIcon={SimpleLineIcons}
+        leftIconName="arrow-left"
+        leftIconAction={FnGoBack}
+        rightIcon={SimpleLineIcons}
+        rightIconAction={FnGotoCart}
+        rightIconName="handbag"
       />
-      <ImageBackground
-        style={{width: H_W.width, height: HEIGHT}}
-        source={FnProduct.image}
-        resizeMode="cover">
-        <FnHeader
-          leftIcon={FontAwesome}
-          leftIconName="chevron-left"
-          leftIconAction={FnGoBack}
-        />
-        <Text
-          numberOfLines={3}
-          style={{
-            marginTop: HEIGHT * 0.05,
-            paddingLeft: H_W.width * 0.05,
-            fontSize: 35,
-            fontFamily: 'Palatino-Bold',
-            fontWeight: 'bold',
-            color: 'white',
-            backgroundColor: colors.primary,
-          }}>
-          {FnProduct.product}
-        </Text>
-        <View
-          style={{
-            borderTopLeftRadius: 40,
-            backgroundColor: 'white',
-            width: H_W.width * 0.9,
-            position: 'absolute',
-            bottom: -insets.bottom,
-            right: 0,
-          }}>
+      <View
+        style={{
+          flex: 1,
+          marginTop: HEIGHT * 0.25,
+          borderTopLeftRadius: 50,
+          borderTopRightRadius: 50,
+          backgroundColor: 'rgba(255,255,255,0.7)',
+          marginBottom: -insets.bottom,
+          paddingBottom: insets.bottom,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <View style={{alignItems: 'center'}}>
+          <FastImage
+            source={FnProduct.image}
+            style={{
+              width: H_W.width * 0.8,
+              height: HEIGHT * 0.4,
+              marginTop: -HEIGHT * 0.24,
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 5,
+              },
+              shadowOpacity: 0.44,
+              shadowRadius: 6.27,
+              overflow: 'visible',
+            }}
+            resizeMode="contain"
+          />
           <View
             style={{
-              borderTopLeftRadius: 40,
-              backgroundColor: `rgba(${colors.rgb_Primary},0.1)`,
-              width: H_W.width * 0.9,
-              height: H_W.height * 0.65,
-              paddingTop: HEIGHT * 0.03,
-              paddingHorizontal: H_W.width * 0.04,
+              width: H_W.width,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingHorizontal: H_W.width * 0.05,
+              marginTop: HEIGHT * 0.01,
             }}>
-            <TouchableOpacity onPress={toggleFav}>
-              <AntDesign
-                name={fav ? 'heart' : 'hearto'}
-                size={30}
-                color={colors.primary}
-                style={{}}
-              />
-            </TouchableOpacity>
-            <ScrollView bounces={false}>
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                <ImageBackground
-                  style={{
-                    width: H_W.width * 0.45,
-                    height: H_W.width * 0.45,
-                    borderRadius: H_W.width * 0.225,
-                    backgroundColor: colors.primary,
-                    shadowColor: colors.primary,
-                    shadowOffset: {
-                      width: 0,
-                      height: 5,
-                    },
-                    shadowOpacity: 0.85,
-                    shadowRadius: 10.27,
-                  }}
-                  source={FnProduct.image}
-                  resizeMode="contain"
-                />
-              </View>
-              <Text
-                style={{
-                  marginTop: HEIGHT * 0.03,
-                  fontSize: 20,
-                  textAlign: 'center',
-                  fontFamily: 'KohinoorTelugu-Medium',
-                }}>
-                {FnProduct.product}
-              </Text>
-              <Text
-                style={{
-                  marginTop: HEIGHT * 0.03,
-                  fontSize: 15,
-                  fontFamily: 'KohinoorTelugu-Medium',
-                  color: colors.darkGray,
-                  opacity: 0.8,
-                  textAlign: 'center',
-                }}>
-                {FnProduct.dis}
-              </Text>
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  flexDirection: 'row',
-                  paddingHorizontal: H_W.width * 0.03,
-                  marginTop: HEIGHT * 0.04,
-                }}>
-                <Text
-                  style={{
-                    fontSize: 23,
-                    fontFamily: 'KohinoorTelugu-Medium',
-                  }}>
-                  $234
-                </Text>
-                {props.FnCart[FnProduct.id] !== undefined &&
-                props.FnCart[FnProduct.id].added !== 0 ? (
-                  <View
-                    style={{
-                      height: HEIGHT * 0.05,
-                      paddingHorizontal: H_W.width * 0.03,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      shadowColor: '#000',
-                      shadowOffset: {
-                        width: 0,
-                        height: 3,
-                      },
-                      shadowOpacity: 0.29,
-                      shadowRadius: 4.65,
-                      backgroundColor: 'white',
-                      borderRadius: 10,
-                    }}>
-                    <TouchableOpacity
-                      onPress={FnRemoveFromCart}
-                      style={{
-                        backgroundColor: colors.primary,
-                        borderRadius: 5,
-                        shadowColor: '#000',
-                        shadowOffset: {
-                          width: 0,
-                          height: 2,
-                        },
-                        shadowOpacity: 0.23,
-                        shadowRadius: 2.62,
-                      }}>
-                      <Entypo name="minus" size={22} color="white" />
-                    </TouchableOpacity>
-                    <Text
-                      style={{
-                        marginHorizontal: H_W.width * 0.04,
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                      }}>
-                      {props.FnCart[FnProduct.id].added}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={FnAddToCart}
-                      style={{
-                        backgroundColor: colors.primary,
-                        borderRadius: 5,
-                        shadowColor: '#000',
-                        shadowOffset: {
-                          width: 0,
-                          height: 2,
-                        },
-                        shadowOpacity: 0.23,
-                        shadowRadius: 2.62,
-                      }}>
-                      <Entypo name="plus" size={22} color="white" />
-                    </TouchableOpacity>
-                  </View>
-                ) : (
-                  <TouchableOpacity
-                    onPress={FnAddToCart}
-                    style={{
-                      height: HEIGHT * 0.05,
-                      paddingHorizontal: H_W.width * 0.03,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: colors.primary,
-                      borderRadius: 10,
-                      shadowColor: '#000',
-                      shadowOffset: {
-                        width: 0,
-                        height: 3,
-                      },
-                      shadowOpacity: 0.29,
-                      shadowRadius: 4.65,
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily: 'KohinoorTelugu-Medium',
-                        color: 'white',
-                        fontSize: 17,
-                      }}>
-                      Add to Cart
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              </View>
-              <Text
-                style={{
-                  marginTop: HEIGHT * 0.03,
-                  marginLeft: H_W.width * 0.03,
-                  fontSize: 18,
-                  fontFamily: 'KohinoorTelugu-Medium',
-                }}>
-                Recommended Products
-              </Text>
-              <Loop
-                style={{marginTop: HEIGHT * 0.03, marginBottom: HEIGHT * 0.03}}
-                data={recommendedProducts}
-                renderItem={({item}) => (
-                  <FnVerticalTile
-                    item={item}
-                    FnGoToSingleProduct={FnGoToSingleProduct}
-                  />
-                )}
-              />
-            </ScrollView>
+            <Text
+              style={{
+                fontFamily: 'GillSans-Light',
+                fontSize: 13.5,
+                paddingHorizontal: H_W.width * 0.01,
+              }}>
+              {productCategory.toUpperCase()}
+            </Text>
+            <Text>Price</Text>
           </View>
+          <View
+            style={{
+              width: H_W.width,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingHorizontal: H_W.width * 0.05,
+              marginTop: HEIGHT * 0.005,
+            }}>
+            <Text
+              style={{
+                fontFamily: 'DamascusMedium',
+                fontSize: 23,
+                width: H_W.width * 0.65,
+              }}>
+              {FnProduct.name.toUpperCase()}
+            </Text>
+            <Text
+              style={{
+                fontFamily: 'DamascusMedium',
+                fontSize: 20,
+              }}>
+              ${FnProduct.price}
+            </Text>
+          </View>
+          <Text
+            style={{
+              fontFamily: 'DamascusLight',
+              fontSize: 15,
+              marginTop: HEIGHT * 0.02,
+              paddingHorizontal: H_W.width * 0.05,
+            }}>
+            {FnProduct.dis}
+          </Text>
         </View>
-      </ImageBackground>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: H_W.width,
+            paddingHorizontal: H_W.width * 0.06,
+          }}>
+          <TouchableOpacity
+            onPress={toggleFav}
+            style={{
+              borderWidth: 1,
+              borderColor: colors.darkGray,
+              paddingHorizontal: H_W.width * 0.03,
+              paddingVertical: HEIGHT * 0.01,
+              borderRadius: 10,
+            }}>
+            <AntDesign
+              name={fav ? 'heart' : 'hearto'}
+              size={30}
+              color={colors.primary}
+            />
+          </TouchableOpacity>
+          {props.FnCart[FnProduct.id] !== undefined ? (
+            <View
+              style={{
+                width: H_W.width * 0.65,
+                height: HEIGHT * 0.063,
+                borderRadius: 10,
+                alignItems: 'center',
+                justifyContent: 'space-evenly',
+                flexDirection: 'row',
+                backgroundColor: `rgba(${colors.rgb_Primary},0.7)`,
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 5,
+                },
+                shadowOpacity: 0.34,
+                shadowRadius: 6.27,
+              }}>
+              <TouchableOpacity
+                onPress={FnRemoveFromCart}
+                style={{
+                  backgroundColor: 'white',
+                  paddingHorizontal: H_W.width * 0.015,
+                  paddingVertical: HEIGHT * 0.004,
+                  borderRadius: 8,
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                  shadowOpacity: 0.27,
+                  shadowRadius: 4.65,
+                }}>
+                <AntDesign name="minus" size={22} />
+              </TouchableOpacity>
+              <Text style={{fontWeight: 'bold', fontSize: 20, color: 'white'}}>
+                {props.FnCart[FnProduct.id].added}
+              </Text>
+              <TouchableOpacity
+                onPress={FnAddToCart}
+                style={{
+                  backgroundColor: 'white',
+                  paddingHorizontal: H_W.width * 0.015,
+                  paddingVertical: HEIGHT * 0.004,
+                  borderRadius: 8,
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                  shadowOpacity: 0.27,
+                  shadowRadius: 4.65,
+                }}>
+                <AntDesign name="plus" size={22} />
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <TouchableOpacity
+              onPress={FnAddToCart}
+              style={{
+                width: H_W.width * 0.65,
+                height: HEIGHT * 0.059,
+                borderRadius: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: `rgba(${colors.rgb_Primary},0.7)`,
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 5,
+                },
+                shadowOpacity: 0.34,
+                shadowRadius: 6.27,
+              }}>
+              <Text style={{fontSize: 16, fontWeight: 'bold', color: 'white'}}>
+                Add to cart
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
     </WrapperScreen>
   );
 }
