@@ -52,7 +52,7 @@ export default {
       name: 'ETERNITY For Men Eau De Parfum',
       image: require('./FnAllAssets/Images/3.png'),
       dis:
-        'A fragrance that strikes you right through the heart bearing an important message for new generations about the dignity of love and the power of diversity. Versace Eros Flame is a fragrance for a strong, Passionate, self-confident man who is deeply in touch with his emotions.The olfactory notes of Versace Eros Flameare characterised by strong contrasts in which the mostnoble and elegant ingredients enrich and enhanceone another - from lemon tangerine, orange, black pepper, wild rosemary, pepperwood, geranium, rose facet, cedar, patchouli, tonka beans and vanilla. A persistent and enveloping fragrance that is simultaneously virile, an ode to passion and a celebration of sensuous rapture.',
+        'A fragrance that strikes you right through the heart bearing an important message for new generations about the dignity of love and the power of diversity. Versace Eros Flame is a fragrance for a strong, Passionate, self-confident man who is deeply in touch with his emotions.The olfactory notes of Versace Eros Flameare ',
       bgcolor: '#FFCDBE',
       price: '92',
     },
